@@ -46,6 +46,6 @@ jobs:
       - name: Health Check
         run: |
           echo "Waiting for deployment to stabilise..."
-          sleep 30
+          sleep 120
           curl -f https://tm.hassanuur.co.uk/health || exit 1
           echo "Health check passed"
