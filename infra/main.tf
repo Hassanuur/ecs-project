@@ -41,9 +41,9 @@ data "aws_route53_zone" "this" {
 }
 
 resource "aws_route53_record" "app" {
-  zone_id = data.aws_route53_zone.this.zone_id
-  name    = var.app_domain
-  type    = "A"
+  zone_id         = data.aws_route53_zone.this.zone_id
+  name            = var.app_domain
+  type            = "A"
   allow_overwrite = true
 
   alias {
