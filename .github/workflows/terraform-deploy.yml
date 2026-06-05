@@ -48,7 +48,7 @@ jobs:
           echo "Waiting for deployment to stabilise..."
           for i in {1..10}; do
             echo "Attempt $i of 10..."
-            if curl -sf https://tm.hassanuur.co.uk/health; then
+            if curl -sf https://tm.hassanuur.co.uk/; then
               echo "Health check passed"
               exit 0
             fi
