@@ -1,0 +1,51 @@
+name: Terraform Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'infra/**'
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'ECR image tag to deploy'
+        required: true
+        default: 'latest'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: infra
+
+      - name: Terraform Apply
+        run: |
+          terraform apply -auto-approve \
+            -var="container_image=343253677532.dkr.ecr.eu-west-2.amazonaws.com/it-tools:${{ github.event.inputs.image_tag || 'latest' }}"
+        working-directory: infra
+
+      - name: Health Check
+        run: |
+          echo "Waiting for deployment to stabilise..."
+          sleep 30
+          curl -f https://tm.hassanuur.co.uk/health || exit 1
+          echo "Health check passed"

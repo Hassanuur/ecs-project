@@ -4,21 +4,21 @@ RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
-RUN pnpm build
+RUN NODE_OPTIONS=--max_old_space_size=4096 npx vite build
 
 FROM nginx@sha256:8b1e78743a03dbb2c95171cc58639fef29abc8816598e27fb910ed2e621e589a AS runtime
 RUN addgroup -S appgroup && adduser -S appuser -g appgroup
-COPY nginx.conf /etc/nginx/conf.d/default.conf 
-COPY --from=builder /app/dist /usr/share/nginx/html 
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist /usr/share/nginx/html
 RUN chown -R appuser:appgroup /usr/share/nginx/html && \
     chown -R appuser:appgroup /var/cache/nginx && \
     chown -R appuser:appgroup /var/log/nginx && \
     touch /var/run/nginx.pid && \
-    chown appuser:appgroup /var/run/nginx.pid
-    chmod 644 /etc/nginx/conf.d/default.conf
+    chown appuser:appgroup /var/run/nginx.pid && \
+    chmod 644 /etc/nginx/conf.d/default.conf && \
+    chown -R appuser:appgroup /etc/nginx/conf.d
 USER appuser
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:80/health || exit 1
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"] 
-#entrypoint 
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
