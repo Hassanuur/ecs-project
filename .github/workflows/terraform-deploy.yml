@@ -47,12 +47,13 @@ jobs:
         run: |
           echo "Waiting for ECS service to stabilise..."
           for i in {1..10}; do
-            if curl -sf https://tm.hassanuur.co.uk/health; then
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://tm.hassanuur.co.uk/health)
+            echo "Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" = "200" ]; then
               echo "Health check passed"
               exit 0
             fi
-            echo "Attempt $i failed, waiting 30s..."
             sleep 30
           done
-          echo "Health check failed after 5 minutes"
+          echo "Health check failed after 10 attempts"
           exit 1
