@@ -45,15 +45,14 @@ jobs:
 
       - name: Health Check
         run: |
-          echo "Waiting for deployment to stabilise..."
+          echo "Waiting for ECS service to stabilise..."
           for i in {1..10}; do
-            echo "Attempt $i of 10..."
-            if curl -sf https://tm.hassanuur.co.uk/; then
+            if curl -sf https://tm.hassanuur.co.uk/health; then
               echo "Health check passed"
               exit 0
             fi
-            echo "Not ready yet, waiting 30s..."
+            echo "Attempt $i failed, waiting 30s..."
             sleep 30
           done
-          echo "Health check failed after 10 attempts"
+          echo "Health check failed after 5 minutes"
           exit 1
