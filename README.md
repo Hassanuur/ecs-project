@@ -1,14 +1,13 @@
 # IT Tools — ECS Deployment
 
-Self-hosted deployment of [IT Tools](https://github.com/CorentinTh/it-tools) on AWS ECS Fargate using Docker, Terraform, and GitHub Actions.
-
 **Live:** https://tm.hassanuur.co.uk
 
 ## Overview
 
-IT Tools is a collection of handy developer utilities including Base64 encoders, UUID generators, JWT decoders, and more. This project deploys it on AWS using production-grade infrastructure with private networking, HTTPS, automated container scanning, and fully automated CI/CD pipelines.
-
-IT Tools was chosen because it is a real, actively used developer tool with 37k GitHub stars. It demonstrates a production-style deployment relevant to platform and cloud engineering roles.
+This project provisions a fully automated, production-grade cloud deployment on AWS from a single terraform apply.
+Infrastructure is defined entirely as code across organised Terraform modules, containerised with a hardened 
+multi-stage Docker build, and deployed via four dedicated GitHub Actions pipelines using OIDC authentication 
+with no static AWS credentials anywhere in the codebase. 
 
 ## App
 
@@ -47,12 +46,3 @@ docker run -p 8080:8080 it-tools
 curl http://localhost:8080/health
 # {"status":"ok"}
 ```
-
-## Pipelines
-
-| Pipeline | Trigger | Purpose |
-|---|---|---|
-| App Build | Push to app/** | Build image, push to ECR, Trivy scan |
-| Terraform Plan | Pull request | fmt, validate, plan |
-| Terraform Deploy | Push to infra/** or manual | Apply infrastructure |
-| Terraform Destroy | Manual only | Tear down infrastructure |
