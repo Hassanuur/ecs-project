@@ -10,13 +10,13 @@ IT Tools is a collection of handy developer utilities including Base64 encoders,
 
 IT Tools was chosen because it is a real, actively used developer tool with 37k GitHub stars. It demonstrates a production-style deployment relevant to platform and cloud engineering roles.
 
-## App Demo
+## App
 
-![App running live](docs/screenshots/app-live.png)
+![App](docs/screenshots/it-tools-page.png)
 
 ## Architecture
 
-![Architecture Diagram](docs/architecture.png)
+![Architecture Diagram](docs/architecture-diagram.png)
 
 **Infrastructure:**
 - Custom VPC with public and private subnets across 2 availability zones
@@ -56,10 +56,3 @@ curl http://localhost:8080/health
 | Terraform Plan | Pull request | fmt, validate, plan |
 | Terraform Deploy | Push to infra/** or manual | Apply infrastructure |
 | Terraform Destroy | Manual only | Tear down infrastructure |
-
-![App Build Pipeline](docs/screenshots/pipeline-app-build.png)
-![Terraform Plan Pipeline](docs/screenshots/pipeline-terraform-plan.png)
-![Terraform Deploy Pipeline](docs/screenshots/pipeline-terraform-deploy.png)
-![Terraform Destroy Pipeline](docs/screenshots/pipeline-terraform-destroy.png)
-
-## Project Structure
