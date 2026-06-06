@@ -4,7 +4,7 @@ RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
-RUN NODE_OPTIONS=--max_old_space_size=4096 npx vite build
+RUN pnpm build
 
 FROM nginx@sha256:8b1e78743a03dbb2c95171cc58639fef29abc8816598e27fb910ed2e621e589a AS runtime
 RUN addgroup -S appgroup && adduser -S appuser -g appgroup
