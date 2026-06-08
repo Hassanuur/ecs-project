@@ -1,4 +1,4 @@
-# IT Tools — ECS Deployment
+# IT Tools - ECS Deployment
 
 **Live:** https://tm.hassanuur.co.uk
 
@@ -19,7 +19,7 @@ with no static AWS credentials anywhere in the codebase.
 
 **Infrastructure:**
 - Custom VPC with public and private subnets across 2 availability zones
-- ECS Fargate tasks in private subnets — not directly internet-facing
+- ECS Fargate tasks in private subnets - not directly internet-facing
 - Application Load Balancer in public subnets with HTTPS termination
 - HTTP to HTTPS redirect enforced at ALB level
 - ACM certificate auto-validated via Route 53 DNS
