@@ -30,7 +30,7 @@ with no static AWS credentials anywhere in the codebase.
 **Security:**
 - Non-root container user running nginx on port 8080
 - ECS tasks only accept traffic from ALB security group
-- OIDC authentication for GitHub Actions — no static AWS keys stored
+- OIDC authentication for GitHub Actions - no static AWS keys stored
 - Trivy vulnerability scanning in CI pipeline
 - S3 remote state with native locking
 
